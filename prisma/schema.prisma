@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  passwordHash  String
+  displayName   String?
+  avatar        String?
+  bio           String?   @db.Text
+  isOnline      Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  settings      UserSettings?
+
+  @@map("users")
+}
+
+model UserSettings {
+  id                      String   @id @default(cuid())
+  userId                  String   @unique
+  user                    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Theme
+  theme                   String   @default("dark")
+  accentColor             String   @default("#ff6b9d")
+  backgroundColor         String   @default("#1a1a2e")
+  cardColor               String   @default("#16213e")
+  textColor               String   @default("#e5e5e5")
+
+  // Notifications
+  emailNotifications      Boolean  @default(true)
+  gameInviteNotifications Boolean  @default(true)
+
+  // Privacy
+  showOnlineStatus        Boolean  @default(true)
+  showMatchHistory        Boolean  @default(true)
+  allowFriendRequests     Boolean  @default(true)
+
+  // Game preferences
+  soundEnabled            Boolean  @default(true)
+  musicVolume             Int      @default(50)
+  sfxVolume               Int      @default(50)
+
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@map("user_settings")
+}

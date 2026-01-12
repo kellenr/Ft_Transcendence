@@ -1,0 +1,238 @@
+# ============================================================================
+# GITIGNORE - ft_transcendence
+# ============================================================================
+#
+# WHAT IS THIS FILE?
+# ------------------
+# Tells Git which files to IGNORE (not track).
+# These files won't be committed to your repository.
+#
+# WHY IGNORE FILES?
+# -----------------
+# 1. Security: Don't commit secrets (.env files)
+# 2. Size: Don't commit huge folders (node_modules)
+# 3. Reproducibility: Don't commit generated files (build/)
+# 4. Cleanliness: Don't commit editor junk (.vscode settings)
+#
+# SYNTAX:
+# -------
+# file.txt      → Ignore file.txt in any directory
+# /file.txt     → Ignore file.txt in root only
+# folder/       → Ignore entire folder
+# *.log         → Ignore all .log files
+# !important.log → DON'T ignore this specific file
+#
+# ============================================================================
+
+# ============================================================================
+# DEPENDENCIES
+# ============================================================================
+# WHAT: External packages installed by npm
+# WHY IGNORE:
+#   - HUGE folder (hundreds of MB)
+#   - Recreatable with "npm install"
+#   - Different per OS (native modules)
+#
+# IF YOU DON'T IGNORE: Repository becomes massive, slow to clone
+# ============================================================================
+node_modules/
+
+# ============================================================================
+# BUILD OUTPUT
+# ============================================================================
+# WHAT: Compiled/generated code
+# WHY IGNORE:
+#   - Recreatable with "npm run build"
+#   - Different per environment
+#   - Can cause merge conflicts
+#
+# build/         → SvelteKit production build
+# .svelte-kit/   → SvelteKit development cache
+# ============================================================================
+build/
+.svelte-kit/
+
+# ============================================================================
+# ENVIRONMENT FILES - ⚠️ CRITICAL SECURITY ⚠️
+# ============================================================================
+# WHAT: Files containing secrets and configuration
+# WHY IGNORE:
+#   - Contains passwords, API keys, secrets
+#   - If committed, anyone can see them!
+#   - Different per environment (dev/prod)
+#
+# .env           → Main environment file
+# .env.local     → Local overrides
+# .env.*.local   → Environment-specific locals
+#
+# NEVER COMMIT THESE! Even if you delete them later,
+# Git history keeps them forever!
+#
+# IF YOU ACCIDENTALLY COMMIT:
+#   1. Change ALL passwords/secrets immediately
+#   2. Use git-filter-repo to remove from history
+#   3. Force push (coordinate with team!)
+# ============================================================================
+.env
+.env.local
+.env.*.local
+
+# ============================================================================
+# IDE / EDITOR
+# ============================================================================
+# WHAT: Editor configuration and cache files
+# WHY IGNORE:
+#   - Personal preference (everyone uses different editors)
+#   - Can contain absolute paths
+#   - Not needed for project to work
+#
+# .vscode/       → VS Code settings
+# .idea/         → JetBrains (WebStorm, IntelliJ)
+# *.swp, *.swo   → Vim swap files
+# ============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================================================
+# OPERATING SYSTEM
+# ============================================================================
+# WHAT: OS-generated files
+# WHY IGNORE:
+#   - Not related to project
+#   - Annoying in git status
+#   - Different per OS
+#
+# .DS_Store      → macOS folder metadata
+# Thumbs.db      → Windows thumbnail cache
+# ============================================================================
+.DS_Store
+Thumbs.db
+
+# ============================================================================
+# LOGS
+# ============================================================================
+# WHAT: Log files generated during development/runtime
+# WHY IGNORE:
+#   - Can be huge
+#   - Contains timestamps (always changing)
+#   - Not needed in repository
+#   - Might contain sensitive info
+# ============================================================================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ============================================================================
+# TESTING
+# ============================================================================
+# WHAT: Test output and coverage reports
+# WHY IGNORE:
+#   - Generated files
+#   - Different every time you run tests
+#   - Large coverage reports
+# ============================================================================
+coverage/
+.nyc_output/
+
+# ============================================================================
+# USER UPLOADS
+# ============================================================================
+# WHAT: Files uploaded by users (avatars, etc.)
+# WHY IGNORE:
+#   - Can be huge
+#   - User-specific data
+#   - Different per environment
+#   - Stored in Docker volumes anyway
+# ============================================================================
+uploads/
+static/uploads/*
+!static/uploads/.gitkeep
+!static/uploads/avatars/
+static/uploads/avatars/*
+!static/uploads/avatars/.gitkeep
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+# WHAT: Local database files (if using SQLite for dev)
+# WHY IGNORE:
+#   - Data changes constantly
+#   - Binary files = bad for git
+#   - Different per developer
+#
+# Note: We use PostgreSQL in Docker, but just in case!
+# ============================================================================
+*.db
+*.db-journal
+prisma/*.db
+prisma/*.db-journal
+
+# ============================================================================
+# DOCKER
+# ============================================================================
+# WHAT: Docker-related temporary files
+# WHY IGNORE:
+#   - Generated by Docker
+#   - Environment-specific
+# ============================================================================
+.docker/
+
+# ============================================================================
+# MISC
+# ============================================================================
+# WHAT: Other generated/temporary files
+# WHY IGNORE: Various reasons - not needed in repo
+#
+# *.tgz          → npm pack output
+# .cache/        → Various tool caches
+# .turbo/        → Turborepo cache (if using)
+# .vercel/       → Vercel deployment cache
+# .output/       → Nitro output
+# ============================================================================
+*.tgz
+.cache/
+.turbo/
+.vercel/
+.output/
+
+# ============================================================================
+# CERTIFICATES (Local HTTPS)
+# ============================================================================
+# WHAT: SSL certificates for local development
+# WHY IGNORE:
+#   - Security: Private keys should never be committed
+#   - Generated locally with mkcert or similar
+#
+# IF YOU NEED HTTPS LOCALLY:
+#   Use mkcert: https://github.com/FiloSottile/mkcert
+#   mkcert localhost
+# ============================================================================
+*.pem
+*.key
+*.crt
+*.cert
+
+# ============================================================================
+# TIPS
+# ============================================================================
+#
+# CHECK WHAT'S IGNORED:
+#   git status --ignored
+#
+# SEE IF A FILE IS IGNORED:
+#   git check-ignore -v <filename>
+#
+# FORCE ADD AN IGNORED FILE (not recommended):
+#   git add -f <filename>
+#
+# STOP TRACKING A FILE (but keep locally):
+#   git rm --cached <filename>
+#
+# ============================================================================
+
+exp
