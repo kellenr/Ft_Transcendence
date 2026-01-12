@@ -1,0 +1,65 @@
+# ============================================================================
+# DOCKER COMPOSE FILE - ft_transcendence
+# ============================================================================
+version: '3.8'
+
+services:
+
+# ----------------------------------------------------------------------------
+# SERVICES
+# ----------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - DATABASE_URL=postgresql://pong_user:pong_password@db:5432/pong_db
+      - NODE_ENV=production
+      - ORIGIN=https://localhost:8081
+      - PORT=8081
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads:/app/uploads
+    networks:
+      - pong-network
+    restart: unless-stopped
+
+  # ==========================================================================
+  # DATABASE SERVICE - PostgreSQL
+  # ==========================================================================
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pong_user
+      POSTGRES_PASSWORD: pong_password
+      POSTGRES_DB: pong_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pong_user -d pong_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pong-network
+    restart: unless-stopped
+
+# ============================================================================
+# VOLUMES (Named Volumes)
+# ============================================================================
+volumes:
+  postgres_data:    # Stores database files
+  uploads:          # Stores user uploads (avatars, etc.)
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  pong-network:
+    driver: bridge
